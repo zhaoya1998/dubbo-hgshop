@@ -1,0 +1,6 @@
+com\zhaoya\hgshop\controller\GoodsController.class
+com\zhaoya\hgshop\kafka\SpuMessageListner.class
+com\zhaoya\hgshop\utils\ElSearchUtil$1.class
+com\zhaoya\hgshop\controller\IndexController.class
+com\zhaoya\hgshop\utils\ElSearchUtil.class
+com\zhaoya\hgshop\controller\UserController.class

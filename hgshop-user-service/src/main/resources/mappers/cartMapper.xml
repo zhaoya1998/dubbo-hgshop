@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoya.hgshop.dao.CartDao">
+	<resultMap type="Cart" id="cartMapper">
+		<id column="id" property="id"></id>
+		<result column="pnum" property="pnum"/>  
+		<result property="skuid" column="skuid"/>
+		<association property="sku" javaType="com.zhaoya.hgshop.pojo.Sku">
+			<result property="id" column="skuid"/>
+			<result property="price" column="price"/>
+			<result property="title" column="titile"/> 
+		</association> 
+	</resultMap>
+	
+<!-- 	int add(@Param("skuId") int skuId, @Param("buyNum") int num); -->
+	<insert id="add">
+		insert into hg_cart(uid,skuid,pnum,createtime,updatetime)
+		  values(#{uid},#{skuId},#{buyNum},now(),now())
+	</insert>
+	<!-- 根据用户id显示购物车的列表 -->
+	<select id="listByUserId" resultMap="cartMapper">
+		select c.* , k.cart_thumbnail,k.price,k.title  from hg_cart c INNER JOIN hg_sku k ON k.id = c.skuid 
+ 			WHERE c.uid=#{value}
+ 	</select>
+ 	<!-- 根据购物车id重新获取 购物车列表-->
+ 	<select id="list" resultMap="cartMapper">
+ 		select c.* , k.cart_thumbnail,k.price,k.title  from hg_cart c INNER JOIN hg_sku k ON k.id = c.skuid 
+ 			WHERE c.id in 
+ 			<foreach collection="array" open="(" separator="," close=")" item="id">
+ 				#{id}
+ 			</foreach>
+ 	</select>
+ 	
+ 	<delete id="deleteBatch">
+ 		delete from hg_cart where uid=#{userId} and id in 
+ 		<foreach collection="ids" open="(" separator="," close=")"  item="id">
+ 			#{id}
+ 		</foreach>
+ 	</delete>
+</mapper>

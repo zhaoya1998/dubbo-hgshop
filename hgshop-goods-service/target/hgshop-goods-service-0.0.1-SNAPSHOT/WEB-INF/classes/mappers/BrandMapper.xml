@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoya.hgshop.dao.BrandDao">
+	<resultMap type="Brand" id="brandMapper">
+		<id property="id" column="id" />
+		<result column="name" property="name" />
+		<result column="firstChar" property="first_char" />
+		<result column="deletedFlag" property="deleted_flag" />
+	</resultMap>
+
+	<select id="list" resultMap="brandMapper">
+		select * from hg_brand
+	</select>
+
+	<update id="update">
+		update hg_brand set
+		name=#{name},first_char=#{firstChar},deleted_flag=#{deletedFlag} WHERE
+		id=#{id}
+	</update>
+
+	<select id="getById" resultMap="brandMapper">
+		select * from hg_brand where
+		id=#{value}
+	</select>
+
+	<select id="listByFirstChar" resultType="Brand">
+		select * from hg_brand where deleted_flag=0
+		<if test="firstChar!=null and firstChar!=''">
+			and first_char=#{firstChar}
+		</if>
+	</select>
+	
+</mapper>

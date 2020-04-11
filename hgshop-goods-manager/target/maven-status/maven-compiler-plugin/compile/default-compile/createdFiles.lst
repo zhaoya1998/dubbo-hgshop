@@ -1,0 +1,9 @@
+com\zhaoya\hgshop\common\FileUtils.class
+com\zhaoya\hgshop\controller\BrandController.class
+com\zhaoya\hgshop\common\HgConstant.class
+com\zhaoya\hgshop\controller\SpecController.class
+com\zhaoya\hgshop\controller\SpuController.class
+com\zhaoya\hgshop\controller\AdminController.class
+com\zhaoya\hgshop\controller\SkuController.class
+com\zhaoya\hgshop\controller\CategoryController.class
+com\zhaoya\hgshop\controller\IndexController.class

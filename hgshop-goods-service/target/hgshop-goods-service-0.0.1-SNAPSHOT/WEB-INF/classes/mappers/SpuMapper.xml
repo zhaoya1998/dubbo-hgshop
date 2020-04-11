@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoya.hgshop.dao.SpuDao">
+	<!-- 必须得有顺序    id result aassocaition collection  -->
+	<!-- goods_name
+is_marketable
+brand_id
+caption
+category_id
+small_pic
+	 -->
+	<resultMap type="spu" id="spuMapper">
+		<id column="id" property="id"></id>
+		<result property="goodsName" column="goods_name"/>
+		<result property="isMarketable" column="is_marketable"/>
+		<result column="brand_id" property="brandId"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="small_pic" property="smallPic" />
+		<association property="brand" column="brand_id" 
+		    select="com.zhaoya.hgshop.dao.BrandDao.getById"></association>
+		<association property="category" column="category_id"
+			select="com.zhaoya.hgshop.dao.CategoryDao.getById">
+		</association>
+	</resultMap>
+	
+	
+
+<!-- List<Spu> list(SpuVo spuVo); -->
+	<select id="list" resultMap="spuMapper">
+		select * from hg_spu 
+		<where>
+			<if test="goodsName !=null and goodsName != ''">
+				AND goods_name like concat('%',#{goodsName},'%')
+			</if>
+			<if test="caption!=null and caption != ''">
+				AND caption like concat('%',#{caption},'%')
+			</if>
+			<if test="categoryId!=null and categoryId!=0 ">
+				AND category_id = #{categoryId}
+			</if>
+		</where>
+		<if test=" sortField==1 ">
+			ORDER BY goods_name
+		</if>
+		<if test=" sortField==2 ">
+			ORDER BY caption
+		</if>
+		<if test=" sortField==3 ">
+			ORDER BY brand_id
+		</if>
+		<!-- 倒序排列 -->	
+		<if test=" sortField !=0  and sortType==2 ">
+			DESC 
+		</if>
+		ORDER BY id desc
+	</select>
+	
+	
+	
+<!-- 	int add(Spu spu); -->
+	   <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+	   	insert into hg_spu(goods_name,caption,is_marketable,brand_id,category_id,small_pic)
+	   	  values(#{goodsName},#{caption},#{isMarketable},#{brandId},#{categoryId},#{smallPic})
+	   </insert>
+
+<!-- 	int deleteBatch(int[] ids); -->
+	<delete id="deleteBatch">
+		delete from hg_spu where id in 
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+<!-- 	Spu getById(int id); -->
+	<select id="getById" resultMap="spuMapper">
+		select * from hg_spu where id=#{id}
+	</select>
+	
+
+<!-- 	int update(Spu spu); -->
+	<update id="update">
+		update hg_spu set goods_name = #{goodsName},
+			caption	=	#{caption},
+			is_marketable=#{isMarketable},
+			brand_id	=	#{brandId},
+			category_id	=	#{categoryId},
+			small_pic	=	#{smallPic}
+		 where id=#{id}
+	</update>
+	
+	<!-- int updateMarkable(int id, int marketable); -->
+	<update id="marketable">
+		update hg_spu set 
+			is_marketable=#{isMarketable}
+		 where id=#{id}
+	</update>
+	
+</mapper>

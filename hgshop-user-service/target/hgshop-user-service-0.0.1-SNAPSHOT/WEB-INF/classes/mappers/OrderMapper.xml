@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding=
+"UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoya.hgshop.dao.OrderDao">
+
+	<!-- 订单的主表 int createOrder(Orders order); -->
+	<insert id="createOrder" useGeneratedKeys="true" keyColumn="oid" keyProperty="oid">
+		insert into orders (uid,sumtotal,address,create_time) values(#{uid},#{sumtotal},#{address},now())
+  </insert>	
+  
+	<!-- 订单的明细表 int createOrderDetail(Orders order); --> 
+	<insert id="createOrderDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into ordersdetail (skuid,total,oid,pnum) values(#{skuId},#{total},#{oid},#{pnum})
+  	</insert>
+</mapper>

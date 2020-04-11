@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoya.hgshop.dao.SpecDao">
+
+	<resultMap type="Spec" id="SpecMapper">
+		<id column="id" property="id"/>
+		<result column="spec_name" property="specName"/>
+		<collection property="optionList" column="id" 
+		select="listOptionsBySpecId"></collection>
+	</resultMap>
+	
+	<select id="listOptionsBySpecId" resultType="SpecOption">
+		select id,option_name optionName,spec_id specId,orders from hg_spec_option
+			where spec_id=#{value}
+	</select>
+
+<!-- int addSpec(Spec spec); -->
+	<insert id="addSpec" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into hg_spec(spec_name) values(#{specName})
+	</insert>
+	
+
+<!-- 	int addSpecOption(SpecOption specOption); -->
+	<insert id="addSpecOption" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into hg_spec_option(option_name,spec_id,orders) 
+		values(#{optionName},#{specId},#{orders})
+	</insert>
+	
+	
+	<!-- int updateSpec(Spec spec); -->
+	<update id="updateSpec">
+		update hg_spec set spec_name=#{specName} WHERE id=#{id}
+	</update>
+
+	<!-- int deleteSpecOption(Integer id); 
+		id 是主表的主键 
+	-->
+	<delete id="deleteSpecOption">
+		delete from hg_spec_option  where spec_id = #{value}
+	</delete>
+
+	<!-- int deteteBatch(int[] ids); 删除主表  -->
+	<delete id="deteteBatch">
+		delete from hg_spec where id in
+		<foreach collection="array" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>
+
+	<!-- int deteteOptionBatch(int[] ids); -->
+	<delete id="deteteOptionBatch">
+		delete from hg_spec_option  where spec_id in
+		<foreach collection="array" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>	
+
+	<!-- List<Spec> list(String name); -->
+	<select id="list" resultMap="SpecMapper">
+		select * from hg_spec  
+		<where>
+			<if test="name != null and name !='' ">
+				AND spec_name like concat('%',#{name},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 	Spec getById(int id); -->
+	<select id="getById" resultMap="SpecMapper">
+		select * from hg_spec  where id=#{value}
+	</select>
+	
+	<select id="selectSpecOptionBySkuId" resultType="SpecOption">
+			select so.option_name optionName, so.id , ss.spec_id ,
+			sp.spec_name as specName from hg_sku_spec  ss LEFT JOIN 
+			hg_spec sp on ss.spec_id=sp.id 
+               LEFT JOIN hg_spec_option so ON so.id=ss.spec_option_id
+               WHERE ss.sku_id=#{value}
+	</select>
+</mapper>
+	

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoya.hgshop.dao.SkuDao">
+	
+	<resultMap type="sku" id="skuMapper">
+		<id column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="sell_point" property="sellPoint"/> 
+		<result column="price" property="price"/>
+		<result column="stock_count" property="stockCount"/>
+		<result column="barcode" property="barcode"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="cost_price" property="costPrice"/>
+		<result column="market_price" property="marketPrice"/>
+		<result column="spu_id" property="spuId"/>
+		<result column="cart_thumbnail" property="cartThumbnail"/>
+		<association column="spu_id" property="spu" select="com.zhaoya.hgshop.dao.SpuDao.getById"/>
+		<collection property="specOptionList" column="sku_id" select="com.zhaoya.hgshop.dao.SpecDao.selectSpecOptionBySkuId" ></collection>
+	</resultMap>
+	
+	<!-- int add(Sku sku); -->
+	<insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into hg_sku(title,sell_point,price,stock_count,barcode,
+		        image,status,create_time,update_time,cost_price,
+		        market_price,spu_id,cart_thumbnail)
+		        values(#{title},#{sellPoint},#{price},#{stockCount},#{barcode},
+		        #{image},1,now(),now(),#{costPrice},
+		        #{marketPrice},#{spuId},#{cartThumbnail})
+	</insert>
+
+	
+	<!-- int addSkuSpec(@Param("skuId") Integer skuId, @Param("specOpt") SpecOption specOption);
+ -->
+ 	<insert id="addSkuSpec">
+ 		insert into hg_sku_spec(sku_id,spec_id,spec_option_id)
+ 			values(#{skuId},#{specOpt.specId},#{specOpt.id})
+ 	</insert>
+  <!-- 	int deleteBatch(int[] ids); -->
+	<delete id="deleteBatch">
+		delete from hg_sku where id in 
+		<foreach collection="array" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>
+
+<!-- 	int deleteSkuSpec(int...ids); -->
+	<delete id="deleteSkuSpec"> 
+		delete from hg_sku_spec where sku_id in 
+		<foreach collection="array" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!-- deleteSkuSpecBySpu  根据spu 删除 商品的属性 -->
+	<delete id="deleteSkuSpecBySpu">
+		delete from hg_sku_spec where sku_id in (select id from hg_sku where 
+		<foreach collection="array" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+
+	<!-- int update(Sku sku); -->
+	<update id="update">
+		update hg_sku set title=#{title},sell_point=#{sellPoint},price=#{price},
+		stock_count=#{stockCount},barcode=#{barcode},
+		        <if test="image!=null and image!='' ">image=#{image},</if>
+		        status=#{status},update_time=now(),cost_price=#{costPrice},
+		        market_price=#{marketPrice}
+		   <if test="cartThumbnail!=null and cartThumbnail!='' ">
+		      ,cart_thumbnail=#{cartThumbnail}
+		   </if>
+		        where id=#{id}
+	</update>
+
+	<!-- List<Sku> list(SkuVo skuVo); -->
+	<select id="list" resultMap="skuMapper">
+		select * from hg_sku 
+		<where>
+			<if test="spuId!=0">
+				and spu_id = #{spuId}
+			</if>
+			<if test="key!=null and key!=''">
+				and ( title like concat('%',#{key},'%') 
+				or sell_point like concat('%',#{key},'%') )
+			</if>
+			<if test="maxPrice!=null and maxPrice > 0 " >
+				and price &lt;= #{maxPrice}
+			</if>
+			<if test="minPrice!=null and minPrice > 0 " >
+				and price &gt;= #{minPrice}
+			</if>
+			
+			<if test="maxStockCount!=null and maxStockCount > 0 " >
+				and stock_count &lt;= #{maxStockCount}
+			</if>
+			<if test="minStockCount!=null and minStockCount > 0 " >
+				and stock_count &gt;= #{minStockCount}
+			</if>
+		</where>
+		order by create_time desc
+	</select>
+
+<!-- 	Sku getById(int id); -->
+	<select id="getById" resultMap="skuMapper">
+		select *,id as sku_id from hg_sku where id=#{value}
+	</select>
+	 <!-- 根据spu id 获取sku的列表 -->
+	<select id="getBySpuId" resultMap="skuMapper">
+		select id,title,sell_point,price,stock_count,barcode,image,
+		 status,create_time,update_time,cost_price,market_price,cart_thumbnail,id as sku_id from hg_sku where spu_id=#{value}
+	</select>
+</mapper>
