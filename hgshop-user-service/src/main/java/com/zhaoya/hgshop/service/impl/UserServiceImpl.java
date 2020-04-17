@@ -3,9 +3,12 @@ package com.zhaoya.hgshop.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zhaoya.hgshop.dao.CartDao;
 import com.zhaoya.hgshop.dao.OrderDao;
 import com.zhaoya.hgshop.dao.UserDao;
@@ -14,8 +17,6 @@ import com.zhaoya.hgshop.pojo.OrderDetail;
 import com.zhaoya.hgshop.pojo.Orders;
 import com.zhaoya.hgshop.pojo.User;
 import com.zhaoya.hgshop.service.UserService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 /**
  * 
@@ -34,21 +35,28 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	OrderDao orderDao;
 
-	@Override
 	public int register(User user) {
 		// TODO Auto-generated method stub
 		// 判断是否存在同名的用户
 		User existUser = userDao.findByUsername(user.getName());
-		if (existUser != null)
+		if(existUser!=null)
 			return -1;
-
+		//加盐（mysalt）  加密
+		String md5Str = DigestUtils.md5Hex(user.getPassword() + "mysalt");
+		user.setPassword(md5Str);
+		
 		return userDao.add(user);
 	}
 
 	@Override
 	public User login(User user) {
 		// TODO Auto-generated method stub
+		
+		//加盐（mysalt）  加密  转换成秘文去数据库中查询
+		String md5Str = DigestUtils.md5Hex(user.getPassword() + "mysalt");
+		user.setPassword(md5Str);
 		return userDao.findUser(user);
+		
 	}
 
 	@Override

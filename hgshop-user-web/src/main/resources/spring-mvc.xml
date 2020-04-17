@@ -12,7 +12,7 @@
 	<!-- 必须修改   -->
 	 <bean class="com.zhaoya.hgshop.utils.ElSearchUtil"></bean> 
 	 <import resource="classpath:applicationContext-elasticSearch.xml"/>
-	 <import resource="classpath:applicationContext-kafka-consumer.xml"/> 
+	<import resource="classpath:applicationContext-kafka-consumer.xml"/>
 	 
 	<!-- 扫描器   必须修改 -->
 	<context:component-scan

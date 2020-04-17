@@ -1,5 +1,8 @@
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\pojo\OrderDetail.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\pojo\Orders.java
+E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\service\GoodsService.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\pojo\User.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\pojo\Cart.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\service\UserService.java
+E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\pojo\Goods.java
+E:\cms\CMSworkSpace\hgshop-parent\hgshop-user-interface\src\main\java\com\zhaoya\hgshop\service\SecurityService.java

@@ -1,10 +1,10 @@
 com\zhaoya\hgshop\dao\SkuDao.class
+com\zhaoya\hgshop\dao\SpuDao.class
+com\zhaoya\hgshop\service\impl\SpuServiceImpl.class
+com\zhaoya\hgshop\service\impl\BrandServiceImpl.class
 com\zhaoya\hgshop\dao\SpecDao.class
 com\zhaoya\hgshop\dao\CategoryDao.class
 com\zhaoya\hgshop\dao\BrandDao.class
 com\zhaoya\hgshop\service\impl\SpecServiceImpl.class
-com\zhaoya\hgshop\dao\SpuDao.class
 com\zhaoya\hgshop\service\impl\CategoryServiceImpl.class
-com\zhaoya\hgshop\service\impl\SpuServiceImpl.class
-com\zhaoya\hgshop\service\impl\BrandServiceImpl.class
 com\zhaoya\hgshop\service\impl\SkuServiceImpl.class

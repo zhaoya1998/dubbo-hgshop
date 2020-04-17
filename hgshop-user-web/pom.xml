@@ -170,7 +170,7 @@
 					<staticContextDocbase>e://pic</staticContextDocbase>
 					<staticContextPath>/pic</staticContextPath>
 					<!-- 自动部署开始 -->
-					    <url>http://192.168.73.179:8880/manager/text</url>
+					    <url>http://192.168.73.179:8080/manager/text</url>
         				<username>boss</username>
 				        <password>123456</password>
 				        <update>true</update>

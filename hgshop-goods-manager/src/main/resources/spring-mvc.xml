@@ -9,10 +9,12 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<!-- 必须修改   -->
-	 <!-- <import resource="classpath:applicationContext-elasticSearch.xml"/> -->
-	<!-- <import resource="classpath:applicationContext-kafka-consumer.xml"/>  -->
-	<!-- 扫描器   必须修改 -->
+<!-- 	<context:property-placeholder
+		location="classpath:hgshop.properties" /> -->
+	<!-- 必须修改 -->
+	<!-- <import resource="classpath:applicationContext-elasticSearch.xml"/> -->
+	<!-- <import resource="classpath:applicationContext-kafka-consumer.xml"/> -->
+	<!-- 扫描器 必须修改 -->
 	<context:component-scan
 		base-package="com.zhaoya.hgshop.controller" />
 	<!-- 视图解析图 -->
@@ -26,60 +28,72 @@
 	<!-- 不拦截静态资源 -->
 	<mvc:default-servlet-handler />
 	<!-- mvc注解驱动 -->
-	<mvc:annotation-driven/>
-	
-	
-	<!-- 配置redis的配置   必须修改-->
-		<bean id="jedisConnectionFactory"
-			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-			p:use-pool="true" p:port="6379" p:hostName="192.168.73.179" />
+	<mvc:annotation-driven />
 
 
-		<!-- 声明bean对象 redis string的序列化 -->
-		<bean id="stringRedisSerializer"
-			class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/pic/**" />
+			<mvc:exclude-mapping path="/resource/**" />
+			<mvc:exclude-mapping path="/admin/tologin" />
+			<mvc:exclude-mapping path="/admin/login" />
+			<bean class="com.zhaoya.hgshop.common.UserInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
 
-		<!-- 声明bean对象 json序列化方式 -->
-		<bean id="genericJackson2JsonRedisSerializer"
-			class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+	<!-- 配置redis的配置 必须修改 -->
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:use-pool="true" p:port="6379" p:hostName="192.168.73.179" />
 
 
-		<!-- 声明bean对象 jdk 序列化方式 -->
-		<bean id="jdkSerializationRedisSerializer"
-			class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+	<!-- 声明bean对象 redis string的序列化 -->
+	<bean id="stringRedisSerializer"
+		class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+
+	<!-- 声明bean对象 json序列化方式 -->
+	<bean id="genericJackson2JsonRedisSerializer"
+		class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
 
 
-		<!-- 配置一个redis模板对象 -->
-		<bean id="redisTemplate"
-			class="org.springframework.data.redis.core.RedisTemplate"
-			p:connection-factory-ref="jedisConnectionFactory">
-			<property name="keySerializer" ref="stringRedisSerializer" />
-			<!-- 只修改value -->
-			<property name="valueSerializer"
-				ref="genericJackson2JsonRedisSerializer" />
-			<!-- 配置hash的key与value的序列化方式 -->
-			<property name="hashKeySerializer"
-				ref="stringRedisSerializer" />
-			<property name="hashValueSerializer"
-				ref="genericJackson2JsonRedisSerializer" />
-		</bean>
-		<!-- 配置redis的配置 结束-->
-   
-	 <!-- 文件上传的处理类 -->
+	<!-- 声明bean对象 jdk 序列化方式 -->
+	<bean id="jdkSerializationRedisSerializer"
+		class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+
+
+	<!-- 配置一个redis模板对象 -->
+	<bean id="redisTemplate"
+		class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnectionFactory">
+		<property name="keySerializer" ref="stringRedisSerializer" />
+		<!-- 只修改value -->
+		<property name="valueSerializer"
+			ref="genericJackson2JsonRedisSerializer" />
+		<!-- 配置hash的key与value的序列化方式 -->
+		<property name="hashKeySerializer"
+			ref="stringRedisSerializer" />
+		<property name="hashValueSerializer"
+			ref="genericJackson2JsonRedisSerializer" />
+	</bean>
+	<!-- 配置redis的配置 结束 -->
+
+	<!-- 文件上传的处理类 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
-		
+
 	<!-- 应用程序名称 -->
-	<!-- <dubbo:application name="students-web"  /> -->
-	
-	<dubbo:application name="hgshop-goods-manager"  >
-		<dubbo:parameter key="qos.enable" value="false"/>
+	<!-- <dubbo:application name="students-web" /> -->
+
+	<dubbo:application name="hgshop-goods-manager">
+		<dubbo:parameter key="qos.enable" value="false" />
 	</dubbo:application>
-	
-	
-	<!-- 注册中心  必须修改 -->
+
+
+	<!-- 注册中心 必须修改 -->
 	<dubbo:registry
-		address="zookeeper://192.168.73.179:2181"  />
-	<!-- 配置扫描包的路径 -->	
-	<dubbo:annotation package="com.zhaoya.hgshop.controller"/>
+		address="zookeeper://192.168.73.179:2181" />
+	<!-- 配置扫描包的路径 -->
+	<dubbo:annotation
+		package="com.zhaoya.hgshop.controller" />
 </beans>

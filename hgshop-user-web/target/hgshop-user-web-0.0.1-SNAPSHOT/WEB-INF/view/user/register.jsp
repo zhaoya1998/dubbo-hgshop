@@ -10,7 +10,7 @@
     <meta name="generator" content="Jekyll v3.8.6">
     <title>登录</title>
   
-
+<script type="text/javascript" src="/resource/jquery/jquery-3.4.1.js"> </script>
     <!-- Bootstrap core CSS -->
 	<link href="/resource/bootstrap4/css/bootstrap.css" rel="stylesheet" >
 	<link href="/resource/css/floating-labels.css" rel="stylesheet" >
@@ -69,6 +69,12 @@
     <input type="password" id="password"  name="password" class="form-control" placeholder="Password" required="">
     <label for="inputPassword">密码</label>
   </div>
+  
+   <div class="form-label-group">
+    <input type="password" id="code"  name="code" class="form-control" placeholder="Password" required="">
+    <label for="inputPassword">验证码</label>
+     <input class="btn btn-lg btn-primary btn-block" value="请求验证码" onclick="getCode()"/>
+  </div>
 
   <div class="checkbox mb-3">
     <label>
@@ -78,5 +84,13 @@
   <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
   <p class="mt-5 mb-3 text-muted text-center">© 2017-2020</p>
 </form>
+
+<script type="text/javascript">
+	function getCode(){
+		$.post('getCode',{},function(data){
+			alert(data)
+		})
+	}
+</script>
 
 </body></html>

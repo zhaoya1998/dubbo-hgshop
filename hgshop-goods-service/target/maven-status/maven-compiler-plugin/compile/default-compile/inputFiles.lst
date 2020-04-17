@@ -1,6 +1,7 @@
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-goods-service\src\main\java\com\zhaoya\hgshop\dao\CategoryDao.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-goods-service\src\main\java\com\zhaoya\hgshop\service\impl\SkuServiceImpl.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-goods-service\src\main\java\com\zhaoya\hgshop\dao\BrandDao.java
+E:\cms\CMSworkSpace\hgshop-parent\hgshop-goods-service\src\main\java\com\zhaoya\hgshop\utils\ElSearchUtil.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-goods-service\src\main\java\com\zhaoya\hgshop\dao\SkuDao.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-goods-service\src\main\java\com\zhaoya\hgshop\service\impl\SpuServiceImpl.java
 E:\cms\CMSworkSpace\hgshop-parent\hgshop-goods-service\src\main\java\com\zhaoya\hgshop\dao\SpuDao.java

@@ -1,52 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <div>
 
- &nbsp;&nbsp;&nbsp;
- <button type="button" class="btn btn-danger" onclick="delBatch()">批量删除</button> 
- 
- 
- 	
-</div>  
+	&nbsp;&nbsp;&nbsp;
+	<button type="button" class="btn btn-danger" onclick="delBatch()">批量删除</button>
+	<a href="/goods/all"><button type="button">订单金额</button></a>
+
+
+
+</div>
 <div>
 	<table class="table">
 		<tr>
-			<th>id <input type="checkbox" id="ids" onchange="selAll()"> </th>
-		    <th>标题</th>
-		    <th>价格</th>
-		    <th>购买数量</th>
-		    <th>总价</th>
+			<th>id <input type="checkbox" id="ids" onchange="selAll()">
+			</th>
+			<th>标题</th>
+			<th>价格</th>
+			<th>购买数量</th>
+			<th>总价</th>
 			<th>操作</th>
 		</tr>
 		<c:forEach items="${listCart}" var="cart">
 			<tr>
-			<td>${cart.id}  <input type="checkbox" value="${cart.id}" name="id"> </td>
-			<td>${cart.sku.title}</td>
-			<td>${cart.sku.price}</td>
-			<td>${cart.pnum}</td>
-			<td>${cart.sku.price * cart.pnum}</td>
-			<td>
-				<button type="button" class="btn btn-danger" onclick="del(${sku.id})">删除</button>
-			</td>
+				<td>${cart.id}<input type="checkbox" value="${cart.id}"
+					name="id">
+				</td>
+				<td>${cart.sku.title}</td>
+				<td>${cart.sku.price}</td>
+				<td>${cart.pnum}</td>
+				<td>${cart.sku.price * cart.pnum}</td>
+				<td>
+					<button type="button" class="btn btn-danger"
+						onclick="del(${sku.id})">删除</button>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<div>
-	
-	<label>配货地址：</label>
-	<input type="text" size="200" id="address">	
-	
-	&nbsp;&nbsp;&nbsp;
- 	<br/><button type="button" class="btn btn-danger" onclick="creatOrder()">下订单</button> 
- 
+
+		<label>配货地址：</label> <input type="text" size="200" id="address">
+
+		&nbsp;&nbsp;&nbsp; <br />
+		<button type="button" class="btn btn-danger" onclick="creatOrder()">下订单</button>
+
 	</div>
-	
-</div>  
+
+</div>
 <script>
-	
-	
+	/* function all() {
+		location.href="/goods/all"
+	}
+	 */
 	
 	
 	function selAll(){

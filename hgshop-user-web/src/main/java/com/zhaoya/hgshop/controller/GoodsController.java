@@ -1,5 +1,6 @@
 package com.zhaoya.hgshop.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,8 +9,10 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.zhaoya.hgshop.pojo.Goods;
 import com.zhaoya.hgshop.pojo.Sku;
 import com.zhaoya.hgshop.pojo.Spu;
+import com.zhaoya.hgshop.service.GoodsService;
 import com.zhaoya.hgshop.service.SkuService;
 import com.zhaoya.hgshop.service.SpuService;
 
@@ -22,6 +25,9 @@ public class GoodsController {
 
 	@Reference
 	SkuService skuService;
+	
+	@Reference
+	GoodsService goodsService;
 
 	/**
 	 * 
@@ -39,5 +45,12 @@ public class GoodsController {
 		request.setAttribute("skuList", list);
 
 		return "goods/detail";
+	}
+	
+	@RequestMapping("all")
+	public String all(HttpServletRequest request) {
+		ArrayList<Goods> list=goodsService.all();
+		request.setAttribute("list", list);
+		return "user/all";
 	}
 }
